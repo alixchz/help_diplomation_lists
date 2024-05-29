@@ -1,5 +1,4 @@
 import pandas as pd
-import csv
 
 liste_diplomes_excel = 'Liste des diplômés RDD.xlsx'
 liste_framaform_excel = '2024-05-29-11h - frama.xlsx'
@@ -12,6 +11,7 @@ df_billetterie = pd.read_excel(liste_billetterie_excel)
 etunum_column_diplomes = 'Etunum'
 etunum_column_framaform = "EtuNum (numéro étudiant présent sur la carte d'étudiant ou sur Géode) / EtuNum (student number on student card or Géode)"
 etunum_column_billetterie = 'etunum'
+iscoming_column_framaform = "Es-tu intéressé(e) par venir à la Cérémonie de Remise de Diplôme ? / Are you interested in coming to the Graduation Ceremony?"
 
 etunum_columns = {
     'diplomes': 'Etunum',
@@ -45,6 +45,7 @@ def sanitize_etunums(df, df_type):
 df_diplomes = sanitize_etunums(df_diplomes, 'diplomes')
 df_billetterie = sanitize_etunums(df_billetterie, 'billetterie')
 df_framaform = sanitize_etunums(df_framaform, 'framaform')
+df_framaform = df_framaform[df_framaform[iscoming_column_framaform] == 'Je souhaite être diplômé lors de la remise de diplôme du 21 juin 2024. / I would like to graduate on June 21, 2024.']
 
 # Check for etunums not present in df_framaform or df_billetterie
 pas_inscrit = df_diplomes[~df_diplomes[etunum_column_diplomes].isin(df_framaform[etunum_column_framaform]) & ~df_diplomes[etunum_column_diplomes].isin(df_billetterie[etunum_column_billetterie])]

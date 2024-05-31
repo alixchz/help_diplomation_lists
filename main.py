@@ -19,7 +19,6 @@ etunum_columns = {
     'billetterie': 'etunum',
 }
 
-print(df_framaform.columns)
 def sanitize_etunums(df, df_type):
     etunum_column = etunum_columns[df_type]
     problemes_etunum = []
@@ -46,12 +45,12 @@ def sanitize_etunums(df, df_type):
 df_diplomes = sanitize_etunums(df_diplomes, 'diplomes')
 df_billetterie = sanitize_etunums(df_billetterie, 'billetterie')
 df_framaform = sanitize_etunums(df_framaform, 'framaform')
-df_framaform = df_framaform[df_framaform[iscoming_column_framaform] == 'Je souhaite être diplômé lors de la remise de diplôme du 21 juin 2024. / I would like to graduate on June 21, 2024.']
 
 # Check for etunums not present in df_framaform or df_billetterie
 pas_inscrit = df_diplomes[~df_diplomes[etunum_column_diplomes].isin(df_framaform[etunum_column_framaform]) & ~df_diplomes[etunum_column_diplomes].isin(df_billetterie[etunum_column_billetterie])]
 pas_inscrit.to_csv('results/pas_inscrit.csv', index=False)
 
 # Check for etunums present in df_framaform but not in df_billetterie
+df_framaform = df_framaform[df_framaform[iscoming_column_framaform] == 'Je souhaite être diplômé lors de la remise de diplôme du 21 juin 2024. / I would like to graduate on June 21, 2024.']
 frama_but_not_billetterie = df_framaform[~df_framaform[etunum_column_framaform].isin(df_billetterie[etunum_column_billetterie])]
 frama_but_not_billetterie.to_csv('results/frama_but_not_billetterie.csv', index=False)

@@ -1,11 +1,11 @@
 import pandas as pd
 
 liste_diplomes_excel = 'Liste des diplômés RDD.xlsx'
-liste_framaform_excel = '2024-05-29-11h - frama.xlsx'
-liste_billetterie_excel = '2024-05-29-11h - billetterie.xlsx'
+liste_framaform_excel = '2024-05-31-13h - frama.xlsx'
+liste_billetterie_excel = '2024-05-31-13h - billetterie.xlsx'
 
 df_diplomes = pd.read_excel(liste_diplomes_excel)
-df_framaform = pd.read_excel(liste_framaform_excel)
+df_framaform = pd.read_excel(liste_framaform_excel, header=2)
 df_billetterie = pd.read_excel(liste_billetterie_excel)
 
 etunum_column_diplomes = 'Etunum'
@@ -19,6 +19,7 @@ etunum_columns = {
     'billetterie': 'etunum',
 }
 
+print(df_framaform.columns)
 def sanitize_etunums(df, df_type):
     etunum_column = etunum_columns[df_type]
     problemes_etunum = []
